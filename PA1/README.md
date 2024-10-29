@@ -11,7 +11,7 @@
 -   A bash script based on previous project solution
     - designed to test the project and 
     - after we run a test copy the data in "[(ckt_traversal.txt)]" 
-    - to the corresponding file in the <em> <ins> $\color{orange} results $</ins></em> directory
+    - to the corresponding file in the <em> <ins> results </ins></em> directory
     
 ### `Main.cpp`
 - The main entry point that coordinates the execution of helper classes and files.
@@ -29,10 +29,10 @@
 - Parses the gate library (database) file to retrieve gate-specific information for use in circuit analysis.
 
 
-## <em> <ins> $\color{orange} test $</ins></em> directory 
+## <em> <ins> test </ins></em> directory 
 
 - Contains provided circuit files and the gate library (database) file
 
 
-## <em> <ins> $\color{orange} results$</ins></em> directory 
+## <em> <ins> results</ins></em> directory 
 - This directory is created by the `updated_tester.sh` script and stores the results of the tests 
