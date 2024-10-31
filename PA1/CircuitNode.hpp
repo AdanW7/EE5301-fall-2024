@@ -37,6 +37,7 @@ class CircuitNode {
         double a_out; // max ouput arrival we get from ouput arrival vector
         double required_arrival_time;
         double cell_delay;
+        std::vector<double> cell_delay_vec;
 
         
 
@@ -59,7 +60,8 @@ class CircuitNode {
       t_out(0.0),
       a_out(0.0), // this is the actual arrival time of output
       required_arrival_time(0.0) ,
-      cell_delay(0.0)
+      cell_delay(0.0),
+      cell_delay_vec()
 {}
         
         void set_node_id(const NodeID& node_id);

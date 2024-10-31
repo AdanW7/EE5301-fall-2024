@@ -16,9 +16,9 @@ vector<double> calculate_a_out(CircuitNode &node, Circuit &ckt);
 vector<double> calculate_t_out(CircuitNode &node, Circuit &ckt);
 void forward_traversal(Circuit &ckt);
 void backward_traversal(Circuit &ckt);
-vector<CircuitNode*> find_crit_path(Circuit &ckt);
+vector<CircuitNode*> find_crit_path(Circuit &ckt,CircuitNode &node);
 void write_ckt_taversal(Circuit &ckt);
-
+void cell_delay_func(Circuit &ckt, int &out_node, int &in_node);
 
 
 int main(int argc, char* argv[]) {
@@ -57,6 +57,7 @@ int main(int argc, char* argv[]) {
     DFF_to_in_out(ckt); // change dff's to inputs and outputs
     create_fanout_list(ckt); // creates a fan out list and inits in/out degree.
     forward_traversal(ckt); // find circuit delay
+    // cell_delay_func(ckt);
     backward_traversal(ckt); // gets gate slacks , required time =1.1*circuit delay
     write_ckt_taversal(ckt);
 
@@ -198,16 +199,48 @@ vector<double> calculate_a_out(CircuitNode &node, Circuit &ckt){
 		multiplier = num_inputs/2;
 	}
 
+    vector<double> tmp_delay;
     NodeID i = 0;
+    if(node.is_input_pad()){
+        tmp_delay.resize(1);
+    }
+    else{
+        tmp_delay.resize(num_inputs);
+    }
+    
     for (auto input_node: node.fanin_list_ ){
-        double cell_delay= multiplier * war_crime(node, ckt.nodes_[input_node]->t_out,0); // we want delay not slew
-        double temp_arrival = node.input_arrival_time[i] + cell_delay; 
-        node.cell_delay=cell_delay;
+        double tmp_cell_delay= multiplier * war_crime(node, ckt.nodes_[input_node]->t_out,0); // we want delay not slew
+        double temp_arrival = node.input_arrival_time[i] + tmp_cell_delay; 
+        node.cell_delay=tmp_cell_delay;
+        tmp_delay[i]=tmp_cell_delay;
+
+        
+
         temp_output_arrival_time.push_back(temp_arrival); // determin what the cell delay for every input Tin is and add them to 
         i++;                                             // vector of output arrival times which we will later use in forward traversal
     }
+
+
+    ckt.nodes_[node.node_id_]->output_arrival_time=temp_output_arrival_time;
+    // double arrival=*max_element(node.output_arrival_time.begin(), node.output_arrival_time.end());
+    double arrival=*min_element(node.output_arrival_time.begin(), node.output_arrival_time.end());
+    // if (arrival=0)
+    // double arrival= numeric_limits<double>::infinity();
+    for ( int j=0; j<i ; j++){
+        if(arrival == ((node.input_arrival_time[j])+(tmp_delay[j]))){
+        // if(arrival > tmp_delay[j]){
+            if (!(node.input_arrival_time[j]==0)){
+                node.cell_delay=tmp_delay[j];
+            }
+            // node.cell_delay=tmp_delay[j];
+        }
+        
+    }
     return temp_output_arrival_time;
 }
+
+
+
 
 vector<double> calculate_t_out(CircuitNode &node, Circuit &ckt){
     std::vector<double> temp_output_slew;
@@ -309,6 +342,23 @@ void forward_traversal(Circuit &ckt){
 }
 
 
+
+void cell_delay_func(Circuit &ckt, int &out_node, int &in_node){
+        if(ckt.nodes_[out_node]!=NULL){
+            double multiplier=0;
+            if(ckt.nodes_[out_node]->is_input_pad()){
+                multiplier=1;
+            }
+            else{
+                multiplier=(ckt.nodes_[out_node]->fanin_list_.size())/2;
+            }
+            double tmp_delay= multiplier * war_crime(*ckt.nodes_[out_node], ckt.nodes_[in_node]->t_out,0); 
+            ckt.nodes_[out_node]->cell_delay=tmp_delay;
+	}
+}
+
+
+
 // For finding the slack at each gate, you need to perform a backward traversal of the circuit. Find the
 // required arrival time at the output of each gate. The difference of the required arrival time and the actual
 // arrival time (obtained from the forward traversal) is the slack at this gate. 
@@ -335,6 +385,7 @@ void backward_traversal(Circuit &ckt){
                 for(auto node: temp_node->fanout_list_){
                     //where node is an ouput node of temp_node
                     //tmp = arrival time of temp node output = minimum node's input arrival time = node's required arrival time - cell delay
+                    cell_delay_func(ckt, node,temp_node->node_id_);
                     double tmp=((ckt.nodes_[node]->required_arrival_time) - (ckt.nodes_[node]->cell_delay)*1000);
                     if (tmp <= tmp_required){
 						tmp_required = tmp;

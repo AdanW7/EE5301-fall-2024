@@ -6,13 +6,13 @@
     "configurations": [
         {
 
-         "name": "(gdb) Launch",
+         "name": "(gdb) Custom Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/sta", // Path to your compiled executable
-            "args": ["test/NLDM_lib_max2Inp", "test/cleaned_iscas89_99_circuits/c17.isc", "10", "11"], // Add any arguments you need
+            "program": "${workspaceFolder}/sta", // Path to your compiled executable
+            "args": ["test/NLDM_lib_max2Inp", "test/cleaned_iscas89_99_circuits/c17.isc"], // Add any arguments you need
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
