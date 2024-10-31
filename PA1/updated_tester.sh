@@ -1,6 +1,6 @@
 mkdir -p results
 
-PRG_NAME=./STA
+PRG_NAME=./sta
 TEST_LIB_PATH="./test/NLDM_lib_max2Inp"
 TEST_CKT_PATH="./test/cleaned_iscas89_99_circuits"
 TEST_ARGS_PATH="./test/"

@@ -2,6 +2,9 @@
 #include <vector>
 #include <fstream>
 #include <queue>
+#include <iomanip>
+#include <algorithm>
+#include <limits>
 
 #include "Circuit.hpp"
 // #include "Gatedatabase.hpp"

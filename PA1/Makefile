@@ -1,6 +1,6 @@
 CC=g++
 TARGET=sta
-CFLAGS=-Wall -std=c++11 -g
+CFLAGS=-Wall -std=c++11 -O3
 
 
 SRCS = main.cpp Circuit.cpp CircuitNode.cpp GateDatabase.cpp
