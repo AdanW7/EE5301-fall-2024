@@ -57,7 +57,6 @@ int main(int argc, char* argv[]) {
     DFF_to_in_out(ckt); // change dff's to inputs and outputs
     create_fanout_list(ckt); // creates a fan out list and inits in/out degree.
     forward_traversal(ckt); // find circuit delay
-    // cell_delay_func(ckt);
     backward_traversal(ckt); // gets gate slacks , required time =1.1*circuit delay
     write_ckt_taversal(ckt);
 
@@ -222,17 +221,12 @@ vector<double> calculate_a_out(CircuitNode &node, Circuit &ckt){
 
 
     ckt.nodes_[node.node_id_]->output_arrival_time=temp_output_arrival_time;
-    // double arrival=*max_element(node.output_arrival_time.begin(), node.output_arrival_time.end());
     double arrival=*min_element(node.output_arrival_time.begin(), node.output_arrival_time.end());
-    // if (arrival=0)
-    // double arrival= numeric_limits<double>::infinity();
     for ( int j=0; j<i ; j++){
         if(arrival == ((node.input_arrival_time[j])+(tmp_delay[j]))){
-        // if(arrival > tmp_delay[j]){
             if (!(node.input_arrival_time[j]==0)){
                 node.cell_delay=tmp_delay[j];
             }
-            // node.cell_delay=tmp_delay[j];
         }
         
     }
@@ -342,7 +336,7 @@ void forward_traversal(Circuit &ckt){
 }
 
 
-
+// this could be 
 void cell_delay_func(Circuit &ckt, int &out_node, int &in_node){
         if(ckt.nodes_[out_node]!=NULL){
             double multiplier=0;

@@ -140,21 +140,12 @@ void Circuit::print_node_info(const NodeID& node_id) {
     // if (nodes_[node_id]->is_input_pad()) {
     //     cout << "INPUT";
     // } else {
-        cout << 
+    cout << 
         
             nodes_[node_id]->get_gate_type() << "-n" <<
             node_id << ": " << nodes_[node_id]->gate_slack<<" ps";
 
-            // nodes_[node_id]->get_fanin_list().front() << " " <<
-            // nodes_[node_id]->get_fanin_list().back() << " ";
-            
-            // const GateInfo* gate_info = nodes_[node_id]->get_gate_info();
-            // if (gate_info == nullptr) {
-            //     cout << 0.;
-            // } else {
-            //     cout << gate_info->output_slew[2][1];
-            // }
-    // }
+
     cout << endl;
 }
 

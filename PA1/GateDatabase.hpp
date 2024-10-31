@@ -13,6 +13,7 @@ struct GateInfo {
     double capacitance;
     double delay_index_1 [GATE_LUT_DIM];
     double delay_index_2 [GATE_LUT_DIM];
+    // delay_index_1 should always = slew_index_1 and the same for index 2 will alway just use delay_index_x for simplicity
     double slew_index_1 [GATE_LUT_DIM];
     double slew_index_2 [GATE_LUT_DIM];
 };
