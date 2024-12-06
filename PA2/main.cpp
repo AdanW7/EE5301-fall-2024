@@ -77,6 +77,7 @@ int main(int argv, char *argc[])
 	int success = parseIbmFile(inareFileName, innetFileName, inPadLocationFileName);
 	if (success == -1) {
 		cout << "Error reading input file(s)" << endl;
+		fcloseall();
 		return 0;
 	}
 
@@ -231,7 +232,8 @@ int main(int argv, char *argc[])
 	double post_spread_wire_length= computeWireLength(Q, x_s, y_s);
 	cout << "Post_spreading W_L: " << post_spread_wire_length << endl;
 	write_CSV(post_spread_, x_s, y_s, pin_locations_l, num_cells_no_pads_l);
-    
+
+    fcloseall();
 }
 
 
@@ -593,7 +595,6 @@ std::vector<double> solveConjugateGradient(const std::vector<std::vector<double>
     double residualSquaredOld = computeDotProduct(residual, residual);
 
     for (int iteration = 0; iteration < maxIterations; ++iteration) {
-        
 
         std::vector<double> matrixDirection = multiplyMatrixVector(matrixA, direction);
         double stepSize = residualSquaredOld / computeDotProduct(direction, matrixDirection);
