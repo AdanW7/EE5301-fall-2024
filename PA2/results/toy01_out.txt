@@ -1,0 +1,6 @@
+Reading circuit file toy01
+numCellPins, numhyper, numCellsAndPads, numCells_noPads = 15, 6, 6, 3
+
+Number of vertices,hyper = 6 6
+Pre_spreading W_L: 2.74378
+Post_spreading W_L: 2.74852

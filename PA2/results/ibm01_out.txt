@@ -1,0 +1,2 @@
+Reading circuit file ibm01
+numCellPins, numhyper, numCellsAndPads, numCells_noPads = 50566, 14111, 12752, 12506

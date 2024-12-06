@@ -1,0 +1,8 @@
+type, x coord, y coord
+cell, 1.8, 2.93333
+cell, 2.94286, 2.90159
+cell, 2.34381, 3.73016
+star, 2.34381, 3.73016
+pin, 0, 5
+pin, 5, 5
+pin, 2, 0
